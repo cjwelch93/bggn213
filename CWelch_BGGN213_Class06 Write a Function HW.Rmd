@@ -1,0 +1,85 @@
+---
+title: "HW for Class06 (Write a Function)"
+author: "Chloe J. Welch"
+date: "10/22/2021"
+output: pdf_document
+---
+
+# Can you improve this analysis code?
+
+s1 <- read.pdb("4AKE")  # kinase with drug
+s2 <- read.pdb("1AKE")  # kinase no drug
+s3 <- read.pdb("1E4Y")  # kinase with drug
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+
+> **Q6**. How would you generalize the original code above to work with any set of input protein structures?
+
+install.packages("bio3d")
+
+library(bio3d)
+s1 <- read.pdb("4AKE")  # kinase with drug
+s2 <- read.pdb("1AKE")  # kinase no drug
+s3 <- read.pdb("1E4Y")  # kinase with drug
+
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+
+# Our first step would be to start by identifying specific lines in the original code that are repeated. Each component of the code follows these general formats:
+
+s1 <- read.pdb("4AKE")
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s1.b <- s1.chainA$atom$b
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+
+# Next, we will want to turn this into a function. Our goal is to use PDB data to visualize protein-drug interactions. The function will consist of PDB file vectors and different elements that are necessary to analyze each file. The function will apply the assigned parameters to each item given-- beginning with the first and continuing on. The first plot is created and any other plots are added on to this.
+
+# The ultimate output will be a single plot with an x- and y-axis, containing different lines for each of the file inputs. Different colors should also be used to represent the file inputs.
+
+Call package and create the function `protein_drug_plot()` and assign parameters.
+
+```{r}
+library(bio3d)
+protein_drug_plot <- function(file) {
+s_X <- read.pdb(file)
+s_X.chainA <- trim.pdb(s_X, chain="A", elety="CA")
+s_X.b <- s_X.chainA$atom$b
+plotb3(s_X.b, sse=s_X.chainA, typ="l", ylab="Bfactor")
+}
+```
+
+```{r}
+protein_drug_plot("4AKE")
+```
+
+Good news! It seems we have generated an output. Let's try this another time.
+
+```{r}
+protein_drug_plot("1AKE")
+```
+
+Let's try it for the final file...
+
+```{r}
+protein_drug_plot("1E4Y")
+```
+
+
+
+
+
+
